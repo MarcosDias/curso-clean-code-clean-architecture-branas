@@ -14,37 +14,37 @@ test("Deve calcular o valor da corrida em horário noturno", () => {
   expect(fare).toBe(39);
 });
 
-test("Deve calcular o valor da corrida em horário no domingo", function () {
+test("Deve calcular o valor da corrida em horário no domingo", () => {
   const fare = calculateRide([
     { distance: 10, date: new Date("2021-03-07T10:00:00") },
   ]);
   expect(fare).toBe(29);
 });
 
-test("Deve calcular o valor da corrida em horário no domingo noturno", function () {
+test("Deve calcular o valor da corrida em horário no domingo noturno", () => {
   const fare = calculateRide([
     { distance: 10, date: new Date("2021-03-07T23:00:00") },
   ]);
   expect(fare).toBe(50);
 });
 
-test("Deve calcular o valor da corrida mínima", function () {
+test("Deve calcular o valor da corrida mínima", () => {
   const fare = calculateRide([
     { distance: 3, date: new Date("2021-03-01T10:00:00") },
   ]);
   expect(fare).toBe(10);
 });
 
-test("Deve retornar -1 se a distância for inválida", function () {
-  const fare = calculateRide([
-    { distance: -3, date: new Date("2021-03-01T10:00:00") },
-  ]);
-  expect(fare).toBe(-1);
+test("Deve retornar uma exception Error se a distância for inválida", () => {
+  expect(() =>
+    calculateRide([{ distance: -3, date: new Date("2021-03-01T10:00:00") }])
+  ).toThrow(new Error("Invalid Distance"));
 });
 
-test("Deve retornar -2 se a data for inválida", function () {
-  const fare = calculateRide([{ distance: 10, date: new Date("abcdef") }]);
-  expect(fare).toBe(-2);
+test("Deve retornar uma exception Error se a data for inválida", () => {
+  expect(() =>
+    calculateRide([{ distance: 10, date: new Date("abcdef") }])
+  ).toThrow(new Error("Invalid Date"));
 });
 
 test("Deve calcular o valor da corrida em múltiplos horários", () => {

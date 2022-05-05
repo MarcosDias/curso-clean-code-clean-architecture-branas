@@ -37,8 +37,8 @@ function isValidDate(date) {
 export function calculateRide(segments) {
   let fare = 0;
   for (const segment of segments) {
-    if (!isValidDistance(segment.distance)) return -1;
-    if (!isValidDate(segment.date)) return -2;
+    if (!isValidDistance(segment.distance)) throw new Error("Invalid Distance");
+		if (!isValidDate(segment.date)) throw new Error("Invalid Date");
     if (isOvernight(segment.date) && !isSunday(segment.date)) {
       fare += segment.distance * OVERNIGHT_FARE;
       continue;
