@@ -1,36 +1,36 @@
 // @ts-nocheck
 // calculate ride
-export function calculateRide(movArray) {
-  let result = 0;
-  for (const mov of movArray) {
+export function calculateRide(segments) {
+  let fare   = 0;
+  for (const segment of segments) {
     if (
-      mov.dist != null &&
-      mov.dist != undefined &&
-      typeof mov.dist === "number" &&
-      mov.dist > 0
+      segment.distance != null &&
+      segment.distance != undefined &&
+      typeof segment.distance === "number" &&
+      segment.distance > 0
     ) {
       if (
-        mov.ds != null &&
-        mov.ds != undefined &&
-        mov.ds instanceof Date &&
-        mov.ds.toString() !== "Invalid Date"
+        segment.date != null &&
+        segment.date != undefined &&
+        segment.date instanceof Date &&
+        segment.date.toString() !== "Invalid Date"
       ) {
         // overnight
 
-        if (mov.ds.getHours() >= 22 || mov.ds.getHours() <= 6) {
+        if (segment.date.getHours() >= 22 || segment.date.getHours() <= 6) {
           // not sunday
-          if (mov.ds.getDay() !== 0) {
-            result += mov.dist * 3.9;
+          if (segment.date.getDay() !== 0) {
+            fare += segment.distance * 3.9;
             // sunday
           } else {
-            result += mov.dist * 5;
+            fare += segment.distance * 5;
           }
         } else {
           // sunday
-          if (mov.ds.getDay() === 0) {
-            result += mov.dist * 2.9;
+          if (segment.date.getDay() === 0) {
+            fare += segment.distance * 2.9;
           } else {
-            result += mov.dist * 2.1;
+            fare += segment.distance * 2.1;
           }
         }
       } else {
@@ -43,9 +43,9 @@ export function calculateRide(movArray) {
       return -1;
     }
   }
-  if (result < 10) {
+  if (fare < 10) {
     return 10;
   } else {
-    return result;
+    return fare;
   }
 }
