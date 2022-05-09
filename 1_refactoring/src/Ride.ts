@@ -51,18 +51,15 @@ export default class Ride {
   finish() {
     let fare = 0;
     for (const segment of this.segments) {
-      if (!this.isValidDistance(segment.distance))
-        throw new Error("Invalid Distance");
-      if (!this.isValidDate(segment.date)) throw new Error("Invalid Date");
-      if (this.isOvernight(segment.date) && !this.isSunday(segment.date)) {
+      if (segment.isOvernight() && !segment.isSunday()) {
         fare += segment.distance * this.OVERNIGHT_FARE;
         continue;
       }
-      if (this.isOvernight(segment.date) && this.isSunday(segment.date)) {
+      if (segment.isOvernight() && segment.isSunday()) {
         fare += segment.distance * this.OVERNIGHT_SUNDAY_FARE;
         continue;
       }
-      if (this.isSunday(segment.date)) {
+      if (segment.isSunday()) {
         fare += segment.distance * this.SUNDAY_FARE;
         continue;
       }
