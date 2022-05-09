@@ -19,35 +19,6 @@ export default class Ride {
     this.segments.push(new Segment(distance, date));
   }
 
-  isOvernight(date: Date) {
-    return (
-      date.getHours() >= this.OVERNIGHT_START ||
-      date.getHours() <= this.OVERNIGHT_END
-    );
-  }
-
-  isSunday(date: Date) {
-    return date.getDay() === 0;
-  }
-
-  isValidDistance(distance: number) {
-    return (
-      distance != null &&
-      distance != undefined &&
-      typeof distance === "number" &&
-      distance > 0
-    );
-  }
-
-  isValidDate(date: Date) {
-    return (
-      date != null &&
-      date != undefined &&
-      date instanceof Date &&
-      date.toString() !== "Invalid Date"
-    );
-  }
-
   finish() {
     let fare = 0;
     for (const segment of this.segments) {
