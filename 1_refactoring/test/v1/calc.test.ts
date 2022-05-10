@@ -1,4 +1,4 @@
-import { calculateRide } from "../src/calculateRide";
+import { calculateRide } from "../../src/v1/calculateRide";
 
 test("Deve calcular o valor da corrida em horário normal", () => {
   const fare = calculateRide([

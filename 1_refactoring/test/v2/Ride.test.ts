@@ -1,4 +1,4 @@
-import Ride from "../src/Ride";
+import Ride from "../../src/v2/Ride";
 
 let ride: Ride;
 
