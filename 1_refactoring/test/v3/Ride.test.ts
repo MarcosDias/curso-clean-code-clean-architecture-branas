@@ -1,0 +1,64 @@
+import NormalFareCalculator from "../../src/v3/NormalFareCalculator";
+import OvernightFareCalculator from "../../src/v3/OvernightFareCalculator";
+import OvernightSundayFareCalculator from "../../src/v3/OvernightSundayFareCalculator";
+import Ride from "../../src/v3/Ride";
+import SundayFareCalculator from "../../src/v3/SundayFareCalculator";
+
+let ride: Ride;
+
+beforeEach(() => {
+  const normalFareCalculator = new NormalFareCalculator()
+  const sundaFareCalculator = new SundayFareCalculator(normalFareCalculator)
+  const overnightSundayFareCalculator = new OvernightSundayFareCalculator(sundaFareCalculator)
+  const overnightFareCalculator = new OvernightFareCalculator(overnightSundayFareCalculator)
+  ride = new Ride(overnightFareCalculator);
+});
+
+test("Deve calcular o valor da corrida em horário normal", () => {
+  ride.addSegment(10, new Date("2021-03-01T10:00:00"));
+  const fare = ride.finish();
+  expect(fare).toBe(21);
+});
+
+test("Deve calcular o valor da corrida em horário noturno", () => {
+  ride.addSegment(10, new Date("2021-03-01T23:00:00"));
+  const fare = ride.finish();
+  expect(fare).toBe(39);
+});
+
+test("Deve calcular o valor da corrida em horário no domingo", () => {
+  ride.addSegment(10, new Date("2021-03-07T10:00:00"));
+  const fare = ride.finish();
+  expect(fare).toBe(29);
+});
+
+test("Deve calcular o valor da corrida em horário no domingo noturno", () => {
+  ride.addSegment(10, new Date("2021-03-07T23:00:00"));
+  const fare = ride.finish();
+  expect(fare).toBe(50);
+});
+
+test("Deve calcular o valor da corrida mínima", () => {
+  ride.addSegment(3, new Date("2021-03-01T10:00:00"));
+  const fare = ride.finish();
+  expect(fare).toBe(10);
+});
+
+test("Deve retornar uma exception Error se a distância for inválida", () => {
+  expect(() => ride.addSegment(-3, new Date("2021-03-01T10:00:00"))).toThrow(
+    new Error("Invalid Distance")
+  );
+});
+
+test("Deve retornar uma exception Error se a data for inválida", () => {
+  expect(() => ride.addSegment(10, new Date("abcdef"))).toThrow(
+    new Error("Invalid Date")
+  );
+});
+
+test("Deve calcular o valor da corrida em múltiplos horários", () => {
+  ride.addSegment(10, new Date("2021-03-01T21:00:00"));
+  ride.addSegment(10, new Date("2021-03-01T22:00:00"));
+  const fare = ride.finish();
+  expect(fare).toBe(60);
+});
