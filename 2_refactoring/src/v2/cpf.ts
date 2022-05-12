@@ -17,13 +17,9 @@ export function validate(cpf) {
             d1 = d2 = 0;
             dg1 = dg2 = rest = 0;
             for (let nCount = 1; nCount < cpf.length - 1; nCount++) {
-              // if (isNaN(parseInt(str.substring(nCount -1, nCount)))) {
-              // 	return false;
-              // } else {
               digito = parseInt(cpf.substring(nCount - 1, nCount));
               d1 = d1 + (11 - nCount) * digito;
               d2 = d2 + (12 - nCount) * digito;
-              // }
             }
             rest = d1 % 11;
             dg1 = rest < 2 ? (dg1 = 0) : 11 - rest;
