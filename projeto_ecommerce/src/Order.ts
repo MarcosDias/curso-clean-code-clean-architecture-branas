@@ -8,7 +8,7 @@ export default class Order {
   orderItem: OrderItem[];
   coupon?: Coupon;
 
-  constructor(cpf: string) {
+  constructor(cpf: string, readonly date = new Date()) {
     this.cpf = new CPF(cpf);
     this.orderItem = [];
   }
@@ -17,7 +17,9 @@ export default class Order {
     this.orderItem.push(new OrderItem(item, quantity));
   }
   addCoupon(coupon: Coupon) {
-    this.coupon = coupon;
+    if (!coupon.isExpired(this.date)) {
+      this.coupon = coupon;
+    }
   }
 
   getTotal() {
