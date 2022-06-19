@@ -4,6 +4,7 @@ export default class Freight {
   private total = 0;
   private DISTANCE = 1000;
   private FACTOR = 100;
+  private MINIMAL_FREIGHT = 10;
 
   addItem(item: Item, quantity: number) {
     const freight =
@@ -12,6 +13,8 @@ export default class Freight {
   }
 
   getTotal() {
-    return this.total;
+    return this.total > 0 && this.total < this.MINIMAL_FREIGHT
+      ? this.MINIMAL_FREIGHT
+      : this.total;
   }
 }
