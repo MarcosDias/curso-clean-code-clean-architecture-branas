@@ -1,6 +1,6 @@
-import Dimension from "../src/Dimension";
-import Freight from "../src/Freight";
-import Item from "../src/Item";
+import Dimension from "../../src/domain/entity/Dimension";
+import Freight from "../../src/domain/entity/Freight";
+import Item from "../../src/domain/entity/Item";
 
 test("Deve calcular o frete", () => {
   const freight = new Freight();
@@ -16,8 +16,6 @@ test("Deve calcular o frete", () => {
   const total = freight.getTotal();
   expect(total).toBe(260);
 });
-
-
 
 test("Deve calcular o frete com preço mínimo", () => {
   const freight = new Freight();
