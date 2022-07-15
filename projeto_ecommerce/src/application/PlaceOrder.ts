@@ -9,14 +9,15 @@ export default class PlaceOrder {
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    const order = new Order(input.cpf);
+    const sequence = (await this.orderRepository.count()) + 1;
+    const order = new Order(input.cpf, input.date, sequence);
     for (const orderItem of input.orderItems) {
       const item = await this.itemRepository.get(orderItem.idItem);
       order.addItem(item, orderItem.quantity);
     }
     await this.orderRepository.save(order);
     const total = order.getTotal();
-    return { total };
+    return { total, code: order.code.value };
   }
 }
 
@@ -24,8 +25,10 @@ type Input = {
   cpf: string;
   orderItems: { idItem: number; quantity: number }[];
   coupon?: string;
+  date?: Date;
 };
 
 type Output = {
   total: number;
+  code: string;
 };
